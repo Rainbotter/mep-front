@@ -1,0 +1,28 @@
+stages:
+  - build_dist
+  - build_image
+
+build_dist:
+  image: node:10
+  stage: build_dist
+  script:
+    - npm install -g @angular/cli
+    - npm install
+    - ng build --prod
+  artifacts:
+    paths:
+      - dist
+
+build_image:
+  image: docker:latest
+  stage: build_image
+  variables:
+  services:
+    - docker:dind
+  script:
+    - docker build -t mepfront .
+    - docker login https://registry.bober.ovh -u $REGISTRY_USER -p $REGISTRY_PASS
+    - docker tag mepfront registry.bober.ovh/mepfront
+    - docker push registry.bober.ovh/mepfront
+  only:
+    - master
