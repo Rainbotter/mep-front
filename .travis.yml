@@ -1,0 +1,22 @@
+sudo: required
+language: node_js
+
+branches:
+  only:
+    - master
+
+services:
+  - docker
+
+before_script:
+  - npm install -g @angular/cli
+  - npm install
+
+script: ng build --prod
+
+after_success:
+  - docker --version
+  - docker build -t rainbowloutre/mep-front .
+  - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
+  - docker push rainbowloutre/mep-front;
+
