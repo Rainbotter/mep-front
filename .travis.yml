@@ -3,22 +3,13 @@ language: node_js
 node_js:
   - "10"
 
-branches:
-  only:
-    - master
-
 services:
   - docker
 
-before_script:
-  - npm install -g @angular/cli
-  - npm install
-
-script: ng build --prod
+script:
+  - ./scripts/build.sh
 
 after_success:
-  - docker --version
-  - docker build -t rainbowloutre/mep-front .
-  - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
-  - docker push rainbowloutre/mep-front;
+  - ./scripts/deploy.sh
+
 
