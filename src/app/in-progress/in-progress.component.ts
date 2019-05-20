@@ -1,4 +1,7 @@
 import {Component, OnInit} from '@angular/core';
+import {MepBackService} from '../shared/mep-back.service';
+import {Mep} from '../shared/Mep';
+import {Observable} from 'rxjs';
 
 @Component({
     selector: 'app-in-progressÒ',
@@ -7,10 +10,14 @@ import {Component, OnInit} from '@angular/core';
 })
 export class InProgressComponent implements OnInit {
 
-    constructor() {
+    meps: Observable<Array<Mep>>;
+
+    constructor(public mepBackService: MepBackService) {
     }
 
-    ngOnInit() {
+    ngOnInit(): void {
+        this.meps = this.mepBackService.meps;
     }
+
 
 }

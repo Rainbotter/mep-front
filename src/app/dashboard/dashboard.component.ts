@@ -1,6 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import * as Chartist from 'chartist';
 import {MepBackService} from '../shared/mep-back.service';
+import {Mep} from '../shared/Mep';
+import {Observable} from 'rxjs';
 
 @Component({
     selector: 'app-dashboard',
@@ -9,8 +11,10 @@ import {MepBackService} from '../shared/mep-back.service';
 })
 export class DashboardComponent implements OnInit {
 
-    Statuses: String[] = [];
-    Apis: Object[] = [
+    statuses: Observable<Array<String>>;
+    meps: Observable<Array<Mep>>;
+
+    apis: Object[] = [
         { id: 1, name: 'telecom-mypost-api', selected: true},
         { id: 2, name: 'mypost-account-api'}
     ]
@@ -78,7 +82,8 @@ export class DashboardComponent implements OnInit {
 
     ngOnInit() {
 
-        this.mepBackService.getStatuses().subscribe(value => this.Statuses = value);
+        this.statuses = this.mepBackService.statuses;
+        this.meps = this.mepBackService.meps;
 
         /* ----------==========     Daily Sales Chart initialization For Documentation    ==========---------- */
 
