@@ -2,13 +2,12 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {BehaviorSubject} from 'rxjs';
 import {Mep} from './Mep';
+import { environment } from './../../environments/environment';
 
 @Injectable({
     providedIn: 'root'
 })
 export class MepBackService {
-
-    apiURL = 'http://localhost:8080';
 
     private _statuses: BehaviorSubject<Array<String>>;
     private _meps: BehaviorSubject<Array<Mep>>;
@@ -39,14 +38,14 @@ export class MepBackService {
     }
 
     getStatuses() {
-        this.http.get<Array<String>>(this.apiURL + '/statuses').subscribe(data => {
+        this.http.get<Array<String>>(environment.apiUrl + '/statuses').subscribe(data => {
             this.dataStore.statuses = data;
             this._statuses.next(Object.assign({}, this.dataStore).statuses);
         }, error => console.log('Could not load statuses'));
     }
 
     getMeps() {
-        this.http.get<Array<Mep>>(this.apiURL + '/meps').subscribe(data => {
+        this.http.get<Array<Mep>>(environment.apiUrl + '/meps').subscribe(data => {
             this.dataStore.meps = data;
             this._meps.next(Object.assign({}, this.dataStore).meps);
         }, error => console.log('Could not load meps'));

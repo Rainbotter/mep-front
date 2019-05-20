@@ -13,7 +13,7 @@ export class AppComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.mepBackService.loadAll;
+        this.mepBackService.loadAll();
     }
 
 }
