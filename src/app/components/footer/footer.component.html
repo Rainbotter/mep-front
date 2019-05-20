@@ -25,9 +25,14 @@
             </ul>
         </nav>
         <div class="copyright pull-right">
-            &copy;
-            {{copyrightDate | date: 'yyyy'}}
-            POST Luxembourg
+            <small>
+                v{{ version }}
+                |
+                &copy;
+                POST Luxembourg
+                |
+                {{copyrightDate | date: 'yyyy'}}
+            </small>
         </div>
     </div>
 </footer>
