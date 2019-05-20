@@ -16,6 +16,7 @@ import {ArchivesComponent} from './archives/archives.component';
 import {HttpClientModule} from '@angular/common/http';
 import {CommonModule} from '@angular/common';
 import {MatButtonModule, MatFormFieldModule, MatInputModule, MatRippleModule, MatSelectModule, MatTooltipModule} from '@angular/material';
+import {MepBackService} from './shared/mep-back.service';
 
 
 @NgModule({
@@ -41,7 +42,7 @@ import {MatButtonModule, MatFormFieldModule, MatInputModule, MatRippleModule, Ma
         InProgressComponent,
         ArchivesComponent
     ],
-    providers: [],
+    providers: [MepBackService],
     bootstrap: [AppComponent]
 })
 export class AppModule {

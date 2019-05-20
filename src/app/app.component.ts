@@ -1,4 +1,5 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {MepBackService} from './shared/mep-back.service';
 
 
 @Component({
@@ -6,6 +7,13 @@ import {Component} from '@angular/core';
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
+
+    constructor(public mepBackService: MepBackService) {
+    }
+
+    ngOnInit() {
+        this.mepBackService.loadAll;
+    }
 
 }

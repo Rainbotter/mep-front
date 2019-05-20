@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {Observable, throwError} from 'rxjs';
-import {catchError, retry} from 'rxjs/operators';
+import {BehaviorSubject} from 'rxjs';
+import {Mep} from './Mep';
 
 @Injectable({
     providedIn: 'root'
@@ -10,28 +10,46 @@ export class MepBackService {
 
     apiURL = 'http://localhost:8080';
 
+    private _statuses: BehaviorSubject<Array<String>>;
+    private _meps: BehaviorSubject<Array<Mep>>;
+
+    private dataStore: {  // This is where we will store our data in memory
+        statuses: Array<String>,
+        meps: Array<Mep>
+    };
+
     constructor(private http: HttpClient) {
+        this.dataStore = { statuses: new Array<String>(), meps: new Array<Mep>() }
+        this._statuses = <BehaviorSubject<Array<String>>> new BehaviorSubject(new Array<String>());
+        this._meps = <BehaviorSubject<Array<Mep>>> new BehaviorSubject(new Array<Mep>());
+
     }
 
-    getStatuses(): Observable<Array<String>> {
-        return this.http.get<String[]>(this.apiURL + '/statuses')
-            .pipe(
-                retry(1),
-                catchError(this.handleError)
-            );
+    get statuses() {
+        return this._statuses.asObservable();
     }
 
-    handleError(error) {
-        let errorMessage = '';
-        if (error.error instanceof ErrorEvent) {
-            // Get client-side error
-            errorMessage = error.error.message;
-        } else {
-            // Get server-side error
-            errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
-        }
-        window.alert(errorMessage);
-        return throwError(errorMessage);
+    get meps() {
+        return this._meps.asObservable();
+    }
+
+    loadAll() {
+        this.getStatuses();
+        this.getMeps();
+    }
+
+    getStatuses() {
+        this.http.get<Array<String>>(this.apiURL + '/statuses').subscribe(data => {
+            this.dataStore.statuses = data;
+            this._statuses.next(Object.assign({}, this.dataStore).statuses);
+        }, error => console.log('Could not load statuses'));
+    }
+
+    getMeps() {
+        this.http.get<Array<Mep>>(this.apiURL + '/meps').subscribe(data => {
+            this.dataStore.meps = data;
+            this._meps.next(Object.assign({}, this.dataStore).meps);
+        }, error => console.log('Could not load meps'));
     }
 
 }

@@ -11,29 +11,21 @@
                         <div class="table-responsive">
                             <table class="table">
                                 <thead class="text-warning">
-                                <th>ID</th>
+                                <th>Id</th>
                                 <th>Nom</th>
-                                <th>Date</th>
-                                <th>Statut</th>
+                                <th>Projet</th>
+                                <th>Version</th>
+                                <th>Date de création</th>
+                                <th>Date de modification</th>
                                 </thead>
                                 <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>MyPost_v7.12.0</td>
-                                    <td>18/05/19</td>
-                                    <td>En préparation</td>
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>MyPost_v7.11.8</td>
-                                    <td>14/05/19</td>
-                                    <td>En clôture</td>
-                                </tr>
-                                <tr>
-                                    <td>3</td>
-                                    <td>MyPost_v7.11.7</td>
-                                    <td>10/05/19</td>
-                                    <td>En clôture</td>
+                                <tr *ngFor="let mep of meps | async">
+                                    <td>{{mep.id}}</td>
+                                    <td>{{mep.name}}</td>
+                                    <td>{{mep.project}}</td>
+                                    <td>{{mep.version}}</td>
+                                    <td>{{mep.creationDate}}</td>
+                                    <td>{{mep.lastModificationDate}}</td>
                                 </tr>
                                 </tbody>
                             </table>
